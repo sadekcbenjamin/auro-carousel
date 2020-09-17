@@ -10,26 +10,111 @@
 @import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/breakpoints";
 @import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/core";
 
-// Support for auroElement styles
-// @import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/auroElement/auroElement";
+:host {
+  display: block;
+  position: relative;
+}
 
-// container styles - defines the look of the outer custom component
-// :host {
-//   ...
-// }
+:host(.focus-visible) {
+  button:focus {
+    border: 3px solid #0074c8;
+    background: #f9fbfc;
+    color: #0074c8;
+  }
+}
 
-// layout styles - define any layout specifications for UI that is contained WITHIN the component
-// never define layout that would cause effect on element outside the scope of this component
+.carousel {
+  overflow-x: scroll;
+  white-space: nowrap;
+  scrollbar-width: none;
+  scroll-behavior: smooth; // TODO: polyfill on Safari https://github.com/iamdustan/smoothscroll
 
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 
-// component shape styles
-// .auro-carousel {
-//   ...
-// }
+  @include auro_breakpoint--sm {
+    &::before, &::after {
+      content: '';
+      height: 100%;
+      width: 90px;
+      display: block;
+      position: absolute;
+      top: 50%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.5) 70%, #fff 100%);
+      z-index: 0;
+    }
 
-.testClass {
-  color:  var(--auro-color-border-error-on-light);
-  border: 1px solid var(--auro-color-border-error-on-light);
-  display: inline-block;
-  padding: var(--auro-text-body-size-default);
+    &::before {
+      left: 0;
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    &::after {
+      right: 0;
+      transform: translateY(-50%) ;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  
+}
+
+::slotted(*) {
+  margin-left: 1rem;
+}
+
+::slotted(:first-child) {
+  margin-left: auto;
+}
+
+::slotted(:last-child) {
+  margin-right: auto;
+}
+
+.button {
+  display: none;
+  
+  @include auro_breakpoint--sm {
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 1px solid #0074c8;
+    background: #ffffff;
+    cursor: pointer;
+    color: #0074c8;
+    padding: 0;
+
+    &:hover {
+      background: #0074ca;
+      color: white;
+      border: none;
+    }
+
+    &:active {
+      background: #054687;
+      color: white;
+      border: none;
+    }
+  }
+}
+
+.button--left {
+  left: 0;
+}
+
+.button--right {
+  right: 0;
+  z-index: 1;
+}
+
+.button--right::before {
+  transform: translateY(-50%) rotate(180deg)
 }

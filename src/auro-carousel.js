@@ -6,14 +6,11 @@
 // If use litElement base class
 import { LitElement, html, css } from "lit-element";
 
-// If using auroElement base class
-// See instructions for importing auroElement base class https://git.io/JULq4
-// import { html, css } from "lit-element";
-// import AuroElement from '@alaskaairux/orion-web-core-style-sheets/dist/auroElement/auroElement';
-
-// Import touch detection lib
 import "focus-visible/dist/focus-visible.min.js";
 import styleCss from "./style-css.js";
+import iconProperties from '@alaskaairux/icons/dist/tokens/CSSTokenProperties-css.js';
+import chevronRightIcon from "@alaskaairux/icons/dist/icons/interface/chevron-right_es6";
+import chevronLeftIcon from "@alaskaairux/icons/dist/icons/interface/chevron-left_es6";
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
@@ -22,17 +19,18 @@ import styleCss from "./style-css.js";
  * @attr {String} cssClass - Applies designated CSS class to DOM element.
  */
 
-// build the component class
 class AuroCarousel extends LitElement {
-  // constructor() {
-  //   super();
-  // }
+  constructor() {
+    super();
+    this.scrollDistance = 100;
+    this.chevronRightSvg = this.getIconAsHtml(chevronRightIcon)
+    this.chevronLeftSvg = this.getIconAsHtml(chevronLeftIcon)
+  }
 
   // function to define props used within the scope of this component
   static get properties() {
     return {
-      // ...super.properties,
-      cssClass:   { type: String }
+      scrollDistance: { type: Number },
     };
   }
 
@@ -42,14 +40,32 @@ class AuroCarousel extends LitElement {
     `;
   }
 
-  // When using auroElement, use the following attribute and function when hiding content from screen readers.
-  // aria-hidden="${this.hideAudible(this.hiddenAudible)}"
+  firstUpdated() {
+    this.carousel = this.renderRoot.querySelector('.carousel');
+  }
 
-  // function that renders the HTML and CSS into  the scope of the component
+  scrollCarousel(num) {
+    this.carousel.scrollLeft += num;
+  }
+
+  getIconAsHtml(icon) {
+    let dom = new DOMParser().parseFromString(icon.svg, 'text/html');
+    return dom.body.firstChild;
+  }
+
   render() {
     return html`
-      <div class=${this.cssClass}>
-        <slot></slot>
+      ${iconProperties}
+      <div class="carousel">
+        <button @click=${() => this.scrollCarousel(-1 * this.scrollDistance)} class="button
+          button--left">${this.chevronLeftSvg}</button>
+        <div class="container">
+          <slot>
+          </slot>
+        </div>
+        <button @click=${() => this.scrollCarousel(this.scrollDistance)}
+          class="button button--right">${this.chevronRightSvg}</button>
+      
       </div>
     `;
   }
