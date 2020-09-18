@@ -5,6 +5,7 @@
 
 // If use litElement base class
 import { LitElement, html, css } from "lit-element";
+import { classMap } from "lit-html/directives/class-map";
 
 import "focus-visible/dist/focus-visible.min.js";
 import styleCss from "./style-css.js";
@@ -25,6 +26,8 @@ class AuroCarousel extends LitElement {
     this.scrollDistance = 100;
     this.chevronRightSvg = this.getIconAsHtml(chevronRightIcon)
     this.chevronLeftSvg = this.getIconAsHtml(chevronLeftIcon)
+    this.scrolledToStart = false;
+    this.scrolledToEnd = false;
   }
 
   // function to define props used within the scope of this component
@@ -40,12 +43,29 @@ class AuroCarousel extends LitElement {
     `;
   }
 
-  firstUpdated() {
+  async firstUpdated() {
     this.carousel = this.renderRoot.querySelector('.carousel');
+
+    // if we have custom elements in the slot, wait for them to be defined
+    // otherwise, scrollWidth will be inaccurate since the slotted children have not been rendered
+    const slot = this.renderRoot.querySelector('slot');
+    const slottedCustomElementNames = slot.assignedElements()
+      .map(node => node.tagName.toLowerCase())
+      .filter(name => name.includes('-'));
+    const customElementNamesDeduped = [... new Set(slottedCustomElementNames)];
+    await Promise.all(customElementNamesDeduped.map(name => customElements.whenDefined(name)));
+    this.setScrollFlags();
   }
 
   scrollCarousel(num) {
     this.carousel.scrollLeft += num;
+  }
+
+  setScrollFlags() {
+    const { scrollLeft, scrollWidth, clientWidth } = this.carousel;
+    this.scrolledToStart = scrollLeft <= 10;
+    this.scrolledToEnd = scrollLeft === scrollWidth - clientWidth;
+    this.requestUpdate();
   }
 
   getIconAsHtml(icon) {
@@ -54,13 +74,19 @@ class AuroCarousel extends LitElement {
   }
 
   render() {
+    const carouselClassMap = {
+      "carousel": true,
+      "carousel--scrolledToStart": this.scrolledToStart,
+      "carousel--scrolledToEnd": this.scrolledToEnd
+    }
+
     return html`
       ${iconProperties}
-      <div class="carousel">
+      <div class="${classMap(carouselClassMap)}" @scroll=${this.setScrollFlags}>
         <button @click=${() => this.scrollCarousel(-1 * this.scrollDistance)} class="button
           button--left">${this.chevronLeftSvg}</button>
         <div class="container">
-          <slot>
+          <slot @slotchange=${this.setScrollFlags}>
           </slot>
         </div>
         <button @click=${() => this.scrollCarousel(this.scrollDistance)}

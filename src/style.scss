@@ -42,7 +42,20 @@
       display: block;
       position: absolute;
       top: 50%;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.5) 70%, #fff 100%);
+      background-image: linear-gradient(
+        90deg,
+        hsla(0,0%,100%,0) 0%,
+        hsla(0,0%,100%,0.06) 12%,
+        hsla(0,0%,100%,0.15) 24%,
+        hsla(0,0%,100%,0.28) 35%,
+        hsla(0,0%,100%,0.40) 46%,
+        hsla(0,0%,100%,0.54) 58%,
+        hsla(0,0%,100%,0.68) 68%,
+        hsla(0,0%,100%,0.82) 78%,
+        hsla(0,0%,100%,0.92) 88%,
+        hsl(0,0%,100%) 100%
+      );
+      
       z-index: 0;
     }
 
@@ -56,11 +69,14 @@
       transform: translateY(-50%) ;
     }
   }
+
+  &.carousel--scrolledToStart::before, &.carousel--scrolledToEnd::after {
+    display: none;
+  }
 }
 
 .container {
   display: flex;
-  
 }
 
 ::slotted(*) {
@@ -115,6 +131,10 @@
   z-index: 1;
 }
 
-.button--right::before {
-  transform: translateY(-50%) rotate(180deg)
+.carousel--scrolledToStart .button--left {
+  display: none;
+}
+
+.carousel--scrolledToEnd .button--right { 
+  display: none; 
 }
