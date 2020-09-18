@@ -28,7 +28,7 @@
   overflow-x: scroll;
   white-space: nowrap;
   scrollbar-width: none;
-  scroll-behavior: smooth; // TODO: polyfill on Safari https://github.com/iamdustan/smoothscroll
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -90,6 +90,17 @@
 
 ::slotted(:last-child) {
   margin-right: auto;
+}
+
+// This allows querying of the breakpoint from Javascript
+// without hard-coding the design token
+// https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
+.carousel::before {
+  display: none;
+  
+  @include auro_breakpoint--sm {
+    content: "sm";
+  }
 }
 
 .button {

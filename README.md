@@ -2,6 +2,8 @@
 
 `<auro-carousel>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of ...
 
+NOTE: be careful putting too many elements into this on mobile.
+
 ## UI development browser support
 
 For the most up to date information on [UI development browser support](https://auro.alaskaair.com/support/browsersSupport)
