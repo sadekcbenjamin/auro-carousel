@@ -23,7 +23,8 @@ import chevronLeftIcon from "@alaskaairux/icons/dist/icons/interface/chevron-lef
 class AuroCarousel extends LitElement {
   constructor() {
     super();
-    this.scrollDistance = 100;
+    this.defaultScrollDistance = 300;
+    this.scrollDistance = this.defaultScrollDistance;
     this.chevronRightSvg = this.getIconAsHtml(chevronRightIcon)
     this.chevronLeftSvg = this.getIconAsHtml(chevronLeftIcon)
     this.scrolledToStart = false;
@@ -84,14 +85,14 @@ class AuroCarousel extends LitElement {
       ${iconProperties}
       <div class="${classMap(carouselClassMap)}" @scroll=${this.setScrollFlags}>
         <button @click=${() => this.scrollCarousel(-1 * this.scrollDistance)} class="button
-          button--left">${this.chevronLeftSvg}</button>
+          button--left">${this.chevronLeftSvg}<span class="util_displayHiddenVisually">Move left</span></button>
         <div class="container">
           <slot @slotchange=${this.setScrollFlags}>
           </slot>
         </div>
         <button @click=${() => this.scrollCarousel(this.scrollDistance)}
-          class="button button--right">${this.chevronRightSvg}</button>
-      
+          class="button button--right">${this.chevronRightSvg}<span class="util_displayHiddenVisually">Move
+            right</span></button>
       </div>
     `;
   }
