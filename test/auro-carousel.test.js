@@ -34,14 +34,14 @@ describe('auro-carousel', () => {
     rightButton(el).click();
     leftButton(el).click();
     await waitFor(() => expect(isHidden(leftButton(el))).to.be.true);
-    await waitFor(() => expect(document.activeElement).to.eql(el.children[0]));
+    await waitFor(() => expect(document.activeElement).to.equal(el.children[0]));
   });
 
   it('hides right button and focuses last element when scrolled to start', async () => {
     const el = await getDefaultFixture();
     scrollToEnd(el);
     await waitFor(() => expect(isHidden(rightButton(el))).to.be.true)
-    await waitFor(() => expect(document.activeElement).to.eql(el.children[el.children.length - 1]));
+    await waitFor(() => expect(document.activeElement).to.equal(el.children[el.children.length - 1]));
   });
 
   it('shows both buttons when in the middle', async () => {
@@ -115,15 +115,15 @@ describe('auro-carousel', () => {
   async function expectA11yPropertiesToBeSet(el) {
     // We set tryImmediately to false here to prevent false positives
     // The element needs a chance to change state
-    await waitFor(() => expect(el.tabIndex).to.eql(-1), false);
-    expect(el.getAttribute('aria-hidden')).to.eql('true');
-    expect(el.style.visibility).to.eql('hidden');
+    await waitFor(() => expect(el.tabIndex).to.equal(-1), false);
+    expect(el.getAttribute('aria-hidden')).to.equal('true');
+    expect(el.style.visibility).to.equal('hidden');
   }
 
   async function expectA11yPropertiesNotToBeSet(el) {
-    await waitFor(() => expect(el.tabIndex).to.eql(0), false);
+    await waitFor(() => expect(el.tabIndex).to.equal(0), false);
     expect(el.hasAttribute('aria-hidden')).to.be.false;
-    expect(el.style.visibility).to.eql('');
+    expect(el.style.visibility).to.equal('');
   }
 
   function scrollToEnd(el) {
@@ -139,9 +139,9 @@ describe('auro-carousel', () => {
   }
 
   /**
-   * Helper function that retries an assertion until it passes
+   * Helper function that retries an assertion until it passes.
    * It will throw the assertion exception after 500ms if it has not passed
-   * @param {boolean} tryImmediately - whether or not to attempt the assertion immediately
+   * @param {boolean} tryImmediately - whether or not to attempt the assertion immediately.
    */
   function waitFor(assertion, tryImmediately = true) {
     return new Promise(resolve => {
