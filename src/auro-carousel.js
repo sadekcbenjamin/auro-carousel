@@ -5,6 +5,8 @@
 
 import { LitElement, html, css } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
+import { unsafeSVG } from "lit-html/directives/unsafe-svg";
+import { ifDefined } from "lit-html/directives/if-defined";
 
 import "focus-visible/dist/focus-visible.min.js";
 import styleCss from "./style-css.js";
@@ -24,11 +26,8 @@ class AuroCarousel extends LitElement {
     super();
     this.defaultScrollDistance = 300;
     this.scrollDistance = this.defaultScrollDistance;
-    this.chevronRightSvg = this.getIconAsHtml(chevronRightIcon)
-    this.chevronLeftSvg = this.getIconAsHtml(chevronLeftIcon)
     this.scrolledToStart = false;
     this.scrolledToEnd = false;
-    this.liveRegionUpdates = [];
   }
 
   // function to define props used within the scope of this component
@@ -48,23 +47,31 @@ class AuroCarousel extends LitElement {
   async firstUpdated() {
     this.carousel = this.renderRoot.querySelector('.carousel');
     this.componentSlot = this.renderRoot.querySelector('slot');
+
+    if (!this.label) {
+      console.warn('Label should be provided to auro-carousel for carousel to be accessible');
+    }
     
     // CSS sets content of pseudoelement based on media query
     // This prevents duplicating the breakpoints in CSS and JS
+    const breakpointDetector = this.renderRoot.querySelector('.breakpoint-detector');
     const currentBreakpoint = window
-      .getComputedStyle(this.carousel, ':before')
+      .getComputedStyle(breakpointDetector, ':before')
       .getPropertyValue('content').replace(/\"/g, '');
     this.isSmallScreen = currentBreakpoint !== 'sm';
 
-    // if we have custom elements in the slot, wait for them to be defined
-    // otherwise, scrollWidth will be inaccurate since the slotted children have not been rendered
-    const slottedCustomElementNames = this.componentSlot.assignedElements()
-      .map(node => node.tagName.toLowerCase())
-      .filter(name => name.includes('-'));
-    const customElementNamesDeduped = [... new Set(slottedCustomElementNames)];
-    await Promise.all(customElementNamesDeduped.map(name => customElements.whenDefined(name)));
-    this.setScrollFlags(false);
-    this.setUpIntersectionObserver();
+    // IE11 does not support assignedElements
+    if ('assignedElements' in this.componentSlot) {
+      // if we have custom elements in the slot, wait for them to be defined
+      // otherwise, scrollWidth will be inaccurate since the slotted children have not been rendered
+      const slottedCustomElementNames = this.componentSlot.assignedElements()
+        .map(node => node.tagName.toLowerCase())
+        .filter(name => name.includes('-'));
+      const customElementNamesDeduped = [... new Set(slottedCustomElementNames)];
+      await Promise.all(customElementNamesDeduped.map(name => customElements.whenDefined(name)));
+      this.setScrollFlags(false);
+      this.setUpIntersectionObserver();
+    }
   }
 
   scrollCarousel(num) {
@@ -78,7 +85,7 @@ class AuroCarousel extends LitElement {
 
     // scrolling to the start or end makes the left/right buttons disappear
     // when this happens, focus the first or last slotted element, respectively
-    if (autofocus && (this.scrolledToStart || this.scrolledToEnd)) {
+    if (autofocus && (this.scrolledToStart || this.scrolledToEnd) && 'assignedElements' in this.componentSlot) {
       const slottedElements = this.componentSlot.assignedElements();
       if (this.scrolledToStart) {
         slottedElements[0].focus();
@@ -90,11 +97,6 @@ class AuroCarousel extends LitElement {
     this.requestUpdate();
   }
 
-  getIconAsHtml(icon) {
-    let dom = new DOMParser().parseFromString(icon.svg, 'text/html');
-    return dom.body.firstChild;
-  }
-
   setUpIntersectionObserver() {
     const options = {
       root: this.carousel
@@ -102,7 +104,7 @@ class AuroCarousel extends LitElement {
 
     // only manage tabIndex/aria-hidden in browsers that support IntersectionObserver (excludes IE)
     // and medium or larger screen sizes
-    // the left/right buttons do not show and small screens so there is not a way for screen reader users
+    // the left/right buttons do not show on small screens so there is not a way for screen reader users
     // to scroll the carousel
     if ('IntersectionObserver' in window && !this.isSmallScreen) {
       const callback = (entries, observer) => {
@@ -110,11 +112,11 @@ class AuroCarousel extends LitElement {
         // otherwise, we remove it from the tab order and set aria-hidden
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.removeAttribute('tabIndex');
+            entry.target.removeAttribute('tabindex');
             entry.target.removeAttribute('aria-hidden');
             entry.target.style.visibility = "";
           } else {
-            entry.target.setAttribute('tabIndex', '-1');
+            entry.target.setAttribute('tabindex', '-1');
             entry.target.setAttribute('aria-hidden', true);
             // if we don't set this, we get an axe violation for "aria-hidden elements do not contain focusable elements"
             entry.target.style.visibility = "hidden";
@@ -146,7 +148,6 @@ class AuroCarousel extends LitElement {
     } else {
       this.scrollCarousel(-1 * this.scrollDistance);
     }
-    this.liveRegionUpdates.push(scrollRight ? "Carousel scrolled right" : "Carousel scrolled left");
   }
 
   render() {
@@ -158,23 +159,21 @@ class AuroCarousel extends LitElement {
 
     return html`
       ${iconProperties}
+      <div class="breakpoint-detector"></div>
       <div role="group" 
-        aria-label="${this.label}" 
+        aria-label="${ifDefined(this.label)}" 
         aria-roledescription="carousel"
         class="${classMap(carouselClassMap)}" 
         @scroll=${() => this.setScrollFlags(true)} >
         <button @click=${() => this.handleClick(false)} class="button button--left">
-          ${this.chevronLeftSvg}<span class="util_displayHiddenVisually">Move left</span>
+          ${unsafeSVG(chevronLeftIcon.svg)}<span class="util_displayHiddenVisually">Scroll left</span>
         </button>
         <div class="container">
           <slot @slotchange=${this.handleSlotChange}></slot>
         </div>
         <button @click=${() => this.handleClick(true)} class="button button--right">
-          ${this.chevronRightSvg}<span class="util_displayHiddenVisually">Move right</span>
+          ${unsafeSVG(chevronRightIcon.svg)}<span class="util_displayHiddenVisually">Scroll right</span>
         </button>
-      </div>
-      <div role="region" aria-live="polite" class="util_displayHiddenVisually">
-        ${this.liveRegionUpdates.map(update => html`<p>${update}</p>`)}
       </div>
     `;
   }

@@ -95,7 +95,7 @@
 // This allows querying of the breakpoint from Javascript
 // without hard-coding the design token
 // https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
-.carousel::before {
+.breakpoint-detector::before {
   display: none;
   
   @include auro_breakpoint--sm {
