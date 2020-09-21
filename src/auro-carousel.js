@@ -89,7 +89,7 @@ class AuroCarousel extends LitElement {
       const slottedElements = this.componentSlot.assignedElements();
       if (this.scrolledToStart) {
         slottedElements[0].focus();
-      } else if (this.scrolledToEnd) {
+      } else {
         slottedElements[slottedElements.length - 1].focus();
       }
     }

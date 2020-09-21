@@ -150,3 +150,15 @@
 .carousel--scrolledToEnd .button--right { 
   display: none; 
 }
+
+svg {
+  margin-top: 3px;
+}
+
+.button--left svg {
+  margin-right: 2px;
+}
+
+.button--right svg {
+  margin-left: 2px;
+}
