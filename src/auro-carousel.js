@@ -16,21 +16,32 @@ import chevronLeftIcon from "@alaskaairux/icons/dist/icons/interface/chevron-lef
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * auro-carousel provides users a way to ...
+ * auro-carousel displays a group of elements in a scrollable container.
  *
- * @attr {String} cssClass - Applies designated CSS class to DOM element.
+ * @attr {Number} scrollDistance - How many pixels to scroll the carousel when the shoulder buttons are triggered.
+ * @attr {String} label - The accessible name for the carousel. Logs a console warning if not set.
+ *
+ * @slot - the elements in the carousel
  */
 
 class AuroCarousel extends LitElement {
   constructor() {
     super();
-    this.defaultScrollDistance = 300;
-    this.scrollDistance = this.defaultScrollDistance;
+    this.scrollDistance = 300;
+
+    /**
+     * @private
+     * Whether or not the carousel is scrolled to the start.
+     */
     this.scrolledToStart = false;
+
+    /**
+     * @private
+     * Whether or not the carousel is scrolled to the end.
+     */
     this.scrolledToEnd = false;
   }
 
-  // function to define props used within the scope of this component
   static get properties() {
     return {
       scrollDistance: { type: Number },
@@ -46,71 +57,107 @@ class AuroCarousel extends LitElement {
 
   async firstUpdated() {
     this.carousel = this.renderRoot.querySelector('.carousel');
-    this.componentSlot = this.renderRoot.querySelector('slot');
 
     if (!this.label) {
+      // eslint-disable-next-line no-console
       console.warn('Label should be provided to auro-carousel for carousel to be accessible');
     }
-    
-    // CSS sets content of pseudoelement based on media query
-    // This prevents duplicating the breakpoints in CSS and JS
-    const breakpointDetector = this.renderRoot.querySelector('.breakpoint-detector');
-    const currentBreakpoint = window
-      .getComputedStyle(breakpointDetector, ':before')
-      .getPropertyValue('content').replace(/\"/g, '');
-    this.isSmallScreen = currentBreakpoint !== 'sm';
 
-    // IE11 does not support assignedElements
-    if ('assignedElements' in this.componentSlot) {
-      // if we have custom elements in the slot, wait for them to be defined
-      // otherwise, scrollWidth will be inaccurate since the slotted children have not been rendered
-      const slottedCustomElementNames = this.componentSlot.assignedElements()
-        .map(node => node.tagName.toLowerCase())
-        .filter(name => name.includes('-'));
-      const customElementNamesDeduped = [... new Set(slottedCustomElementNames)];
-      await Promise.all(customElementNamesDeduped.map(name => customElements.whenDefined(name)));
-      this.setScrollFlags(false);
-      this.setUpIntersectionObserver();
-    }
+    await this.allCustomElementChildrenDefined();
+    this.setScrollFlags(false);
+    this.setUpIntersectionObserver();
   }
 
+  /**
+   * Internal method to determine if the screen is small.
+   * @private
+   * @returns {boolean} true if the screen is small
+   */
+  isSmallScreen() {
+    const breakpointDetector = this.renderRoot.querySelector('.breakpoint-detector');
+    // CSS sets content of pseudoelement based on media query
+    // This prevents duplicating the breakpoints in CSS and JS
+    const currentBreakpoint = window.
+      getComputedStyle(breakpointDetector, ':before').
+      getPropertyValue('content').
+      replace(/"/gu, '');
+
+    return currentBreakpoint !== 'sm';
+  }
+
+  /**
+   * Internal method to wait for custom elements in the slot to be defined. Without this method,
+   * the container's scrollWidth will be innacurate since the slotted custom elements have not been
+   * fully rendered.
+   * @private
+   * @returns {Promise<void>} Promise that resolves when all custom elements are defined
+   */
+  allCustomElementChildrenDefined() {
+    const slottedCustomElementNames = Array.from(this.children).
+      map((node) => node.tagName.toLowerCase()).
+      filter((name) => name.includes('-'));
+    const customElementNamesDeduped = [...new Set(slottedCustomElementNames)];
+
+    return Promise.all(customElementNamesDeduped.map((name) => customElements.whenDefined(name)));
+  }
+
+  /**
+   * Scrolls the carousel by the given amount.
+   * @param {number} num - the number of pixels to scroll the carousel by. Positive scrolls to the
+   * right, negative scrolls to the left.
+   * @return {void}
+   */
   scrollCarousel(num) {
     this.carousel.scrollLeft += num;
   }
 
+  /**
+   * Internal method to set scrolledToStart and scrolledToEnd
+   * @private
+   * @param {boolean} autofocus - true if the first or last element should be focused when scrolled to
+   * start or end, respectively.
+   * @return {void}
+   */
   setScrollFlags(autofocus) {
     const { scrollLeft, scrollWidth, clientWidth } = this.carousel;
+
     this.scrolledToStart = scrollLeft <= 0;
     this.scrolledToEnd = scrollLeft >= scrollWidth - clientWidth;
 
     // scrolling to the start or end makes the left/right buttons disappear
     // when this happens, focus the first or last slotted element, respectively
-    if (autofocus && (this.scrolledToStart || this.scrolledToEnd) && 'assignedElements' in this.componentSlot) {
-      const slottedElements = this.componentSlot.assignedElements();
+    if (autofocus && (this.scrolledToStart || this.scrolledToEnd)) {
       if (this.scrolledToStart) {
-        slottedElements[0].focus();
+        this.firstElementChild.focus();
       } else {
-        slottedElements[slottedElements.length - 1].focus();
+        this.lastElementChild.focus();
       }
     }
 
     this.requestUpdate();
   }
 
+  /**
+   * Internal method to set up the intersection observer. When carousel elements are out of view,
+   * we remove it from the tab order and hide it from assistive tech. When they come into view, we
+   * reverse our changes.
+   * @private
+   * @return {void}
+   */
   setUpIntersectionObserver() {
     const options = {
-      root: this.carousel
+      root: this.carousel,
+      threshold: 0.8
     };
 
-    // only manage tabIndex/aria-hidden in browsers that support IntersectionObserver (excludes IE)
-    // and medium or larger screen sizes
-    // the left/right buttons do not show on small screens so there is not a way for screen reader users
-    // to scroll the carousel
-    if ('IntersectionObserver' in window && !this.isSmallScreen) {
-      const callback = (entries, observer) => {
+    // We only manage tabIndex/aria-hidden in browsers that support IntersectionObserver (excludes IE)
+    // and medium or larger screen sizes. The left/right buttons do not show on small screens so there
+    // is not a way for screen reader users to scroll the carousel.
+    if ('IntersectionObserver' in window && !this.isSmallScreen()) {
+      const callback = (entries) => {
         // when the slotted element becomes visible, we want it to be tabbable and visible to assistive tech
         // otherwise, we remove it from the tab order and set aria-hidden
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.removeAttribute('tabindex');
             entry.target.removeAttribute('aria-hidden');
@@ -123,25 +170,43 @@ class AuroCarousel extends LitElement {
           }
         })
       }
-      this.observer = new IntersectionObserver(callback, options);
 
-      this.componentSlot.assignedElements().forEach(element => {
-        this.observer.observe(element);
-      })
+      this.observer = new IntersectionObserver(callback, options);
+      this.observeChildren();
     }
   }
 
+  /**
+   * Internal method to observe the components children with IntersectionObserver.
+   * @private
+   * @return {void}
+   */
+  observeChildren() {
+    Array.from(this.children).forEach((element) => {
+      this.observer.observe(element);
+    })
+  }
+
+  /**
+   * Internal method to handle slot change. When the slot contents change, we need to re-observe the
+   * slotted elements.
+   * @private
+   * @return {void}
+   */
   handleSlotChange() {
     this.setScrollFlags(false);
     if (this.observer) {
-      // when an item is added to the slot, we need to re-observe the slotted elements
       this.observer.disconnect();
-      this.componentSlot.assignedElements().forEach(element => {
-        this.observer.observe(element);
-      });
+      this.observeChildren();
     }
   }
 
+  /**
+   * Internal method to handle clicks on the shoulder buttons.
+   * @private
+   * @param {boolean} scrollRight - whether to scroll the carousel right or left.
+   * @return {void}
+   */
   handleClick(scrollRight) {
     if (scrollRight) {
       this.scrollCarousel(this.scrollDistance)

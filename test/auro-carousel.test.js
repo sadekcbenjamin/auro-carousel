@@ -1,4 +1,5 @@
 import { fixture, html, expect } from '@open-wc/testing';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import '../src/auro-carousel.js';
 
 describe('auro-carousel', () => {
@@ -14,10 +15,21 @@ describe('auro-carousel', () => {
     await expect(el).to.be.true;
   });
 
+  it('uses scroll distance attribute when set', async () => {
+    const el = await getDefaultFixture(200);
+    rightButton(el).click();
+    expect(el.carousel.scrollLeft).to.equal(200);
+  });
+
+  it('sets label on the carousel', async () => {
+    const el = await getDefaultFixture();
+    expect(el.carousel.getAttribute('aria-label')).to.equal('buttons');
+  });
+
   it('scrolls the container right when right button clicked', async () => {
     const el = await getDefaultFixture();
     rightButton(el).click();
-    expect(el.carousel.scrollLeft).to.equal(el.defaultScrollDistance);
+    expect(el.carousel.scrollLeft).to.equal(300);
   });
 
   it('scrolls the container left when left button clicked', async () => {
@@ -25,7 +37,7 @@ describe('auro-carousel', () => {
     scrollToEnd(el);
     const startScrollPosition = el.carousel.scrollLeft;
     leftButton(el).click();
-    expect(el.carousel.scrollLeft).to.equal(startScrollPosition - el.defaultScrollDistance);
+    expect(el.carousel.scrollLeft).to.equal(startScrollPosition - 300);
   });
 
   it('hides left button and focuses first element when scrolled to start', async () => {
@@ -49,14 +61,14 @@ describe('auro-carousel', () => {
     rightButton(el).click();
     await waitFor(() => expect(isHidden(leftButton(el))).to.be.false);
     expect(isHidden(rightButton(el))).to.be.false;
-  })
+  });
 
   it('sets tabindex and aria-hidden when child scrolled out of view', async () => {
     const el = await getDefaultFixture();
     scrollToEnd(el);
     await expectA11yPropertiesToBeSet(el.firstElementChild);
     await expectA11yPropertiesNotToBeSet(el.lastElementChild);
-  })
+  });
 
   it('re-observes on slot change', async () => {
     const el = await getDefaultFixture();
@@ -80,9 +92,9 @@ describe('auro-carousel', () => {
 
   it('does not manage focus on small screen', async () => {
     const el = await getDefaultFixture();
-    // since we can't simulate a small browser window, we need to manually
-    // set the internal property and re-initialize the observer
-    el.isSmallScreen = true;
+    // since we can't simulate a small browser window, we need to stub out
+    // the internal method and re-initialize the observer
+    el.isSmallScreen = () => true;
     el.observer.disconnect();
     el.setUpIntersectionObserver();
 
@@ -91,10 +103,10 @@ describe('auro-carousel', () => {
     await expectA11yPropertiesNotToBeSet(el.lastElementChild);
   })
 
-  async function getDefaultFixture() {
+  async function getDefaultFixture(scrollDistance) {
     // set width on component to force it to overflow
     const el = await fixture(html`
-      <auro-carousel label="buttons" style="width: 200px;">
+      <auro-carousel label="buttons" scrollDistance=${ifDefined(scrollDistance)} style="width: 200px;">
         <button>Button 1</button>
         <button>Button 2</button>
         <button>Button 3</button>
