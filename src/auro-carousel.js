@@ -55,7 +55,7 @@ class AuroCarousel extends LitElement {
     `;
   }
 
-  async firstUpdated() {
+  firstUpdated() {
     this.carousel = this.renderRoot.querySelector('.carousel');
 
     if (!this.label) {
@@ -63,9 +63,9 @@ class AuroCarousel extends LitElement {
       console.warn('Label should be provided to auro-carousel for carousel to be accessible');
     }
 
-    await this.allCustomElementChildrenDefined();
     this.setScrollFlags(false);
     this.setUpIntersectionObserver();
+    this.setUpResizeObserver();
   }
 
   /**
@@ -83,22 +83,6 @@ class AuroCarousel extends LitElement {
       replace(/"/gu, '');
 
     return currentBreakpoint !== 'sm';
-  }
-
-  /**
-   * Internal method to wait for custom elements in the slot to be defined. Without this method,
-   * the container's scrollWidth will be innacurate since the slotted custom elements have not been
-   * fully rendered.
-   * @private
-   * @returns {Promise<void>} Promise that resolves when all custom elements are defined
-   */
-  allCustomElementChildrenDefined() {
-    const slottedCustomElementNames = Array.from(this.children).
-      map((node) => node.tagName.toLowerCase()).
-      filter((name) => name.includes('-'));
-    const customElementNamesDeduped = [...new Set(slottedCustomElementNames)];
-
-    return Promise.all(customElementNamesDeduped.map((name) => customElements.whenDefined(name)));
   }
 
   /**
@@ -161,18 +145,32 @@ class AuroCarousel extends LitElement {
           if (entry.isIntersecting) {
             entry.target.removeAttribute('tabindex');
             entry.target.removeAttribute('aria-hidden');
-            entry.target.style.visibility = "";
           } else {
             entry.target.setAttribute('tabindex', '-1');
             entry.target.setAttribute('aria-hidden', true);
-            // if we don't set this, we get an axe violation for "aria-hidden elements do not contain focusable elements"
-            entry.target.style.visibility = "hidden";
           }
         })
       }
 
-      this.observer = new IntersectionObserver(callback, options);
+      this.intersectionObserver = new IntersectionObserver(callback, options);
       this.observeChildren();
+    }
+  }
+
+  /**
+   * Internal method to set up the resize observer. When an element is resized, we update
+   * the scroll flags so the buttons are shown/hidden appropriately.
+   * @private
+   * @return {void}
+   */
+  setUpResizeObserver() {
+    if ('ResizeObserver' in window) {
+      // Update scrollflags when a child's size changes (e.g., a custom element becomes
+      // defined or an image is loaded)
+      this.resizeObserver = new ResizeObserver(() => this.setScrollFlags());
+      Array.from(this.children).forEach((element) => {
+        this.resizeObserver.observe(element);
+      });
     }
   }
 
@@ -183,7 +181,7 @@ class AuroCarousel extends LitElement {
    */
   observeChildren() {
     Array.from(this.children).forEach((element) => {
-      this.observer.observe(element);
+      this.intersectionObserver.observe(element);
     })
   }
 
@@ -195,8 +193,8 @@ class AuroCarousel extends LitElement {
    */
   handleSlotChange() {
     this.setScrollFlags(false);
-    if (this.observer) {
-      this.observer.disconnect();
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
       this.observeChildren();
     }
   }

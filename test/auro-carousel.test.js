@@ -95,7 +95,7 @@ describe('auro-carousel', () => {
     // since we can't simulate a small browser window, we need to stub out
     // the internal method and re-initialize the observer
     el.isSmallScreen = () => true;
-    el.observer.disconnect();
+    el.intersectionObserver.disconnect();
     el.setUpIntersectionObserver();
 
     scrollToEnd(el);
@@ -129,13 +129,11 @@ describe('auro-carousel', () => {
     // The element needs a chance to change state
     await waitFor(() => expect(el.tabIndex).to.equal(-1), false);
     expect(el.getAttribute('aria-hidden')).to.equal('true');
-    expect(el.style.visibility).to.equal('hidden');
   }
 
   async function expectA11yPropertiesNotToBeSet(el) {
     await waitFor(() => expect(el.tabIndex).to.equal(0), false);
     expect(el.hasAttribute('aria-hidden')).to.be.false;
-    expect(el.style.visibility).to.equal('');
   }
 
   function scrollToEnd(el) {
