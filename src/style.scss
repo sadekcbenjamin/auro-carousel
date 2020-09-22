@@ -18,9 +18,9 @@
 
 :host(.focus-visible) {
   button:focus {
-    border: 3px solid #0074c8;
-    background: #f9fbfc;
-    color: #0074c8;
+    border: 3px solid var(--auro-color-ui-default-on-light);
+    background: var(--auro-color-base-white);
+    color: var(--auro-color-ui-default-on-light);
   }
 }
 
@@ -39,7 +39,7 @@
     &::before, &::after {
       content: '';
       height: 100%;
-      width: 90px;
+      width: 5.625rem;
       display: block;
       position: absolute;
       top: 50%;
@@ -81,7 +81,7 @@
 }
 
 ::slotted(*) {
-  margin-left: 1rem;
+  margin-left: var(--auro-size-md);
 }
 
 ::slotted(:first-child) {
@@ -111,24 +111,24 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    height: 40px;
-    width: 40px;
+    height: 2.5rem;
+    width: 2.5rem;
     border-radius: 50%;
-    border: 1px solid #0074c8;
-    background: #ffffff;
+    border: 1px solid var(--auro-color-ui-default-on-light);
+    background: var(--auro-color-base-white);
     cursor: pointer;
-    color: #0074c8;
+    color: var(--auro-color-ui-default-on-light);
     padding: 0;
 
     &:hover {
-      background: #0074ca;
-      color: white;
+      background: var(--auro-color-ui-default-on-light);
+      color: var(--auro-color-base-white);
       border: none;
     }
 
     &:active {
-      background: #054687;
-      color: white;
+      background: var(--auro-color-ui-active-on-light);
+      color: var(--auro-color-base-white);
       border: none;
     }
   }
