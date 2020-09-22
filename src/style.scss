@@ -82,6 +82,7 @@
 
 ::slotted(*) {
   margin-left: var(--auro-size-md);
+  flex: 0 0 auto;
 }
 
 ::slotted(:first-child) {

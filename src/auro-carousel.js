@@ -44,7 +44,10 @@ class AuroCarousel extends LitElement {
 
   static get properties() {
     return {
-      scrollDistance: { type: Number },
+      scrollDistance: {
+        type: Number,
+        reflect: true
+      },
       label: { type: String },
     };
   }

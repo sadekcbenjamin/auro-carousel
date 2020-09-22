@@ -1,8 +1,11 @@
 ## auro-carousel
 
-`<auro-carousel>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of ...
+`<auro-carousel>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) that displays a group of elements in a scrollable container.
 
-NOTE: be careful putting too many elements into this on mobile.
+auro-carousel attempts to improve the experience of assistive technology users by managing the tabIndex and hidden state of items in the carousel. Elements not currently visible in the scrollable container are removed from the tab 
+order and removed from the accessibility tree. This is to prevent users from tabbing through a large amount of items in the carousel that would otherwise be out of view. When elements are scrolled into view using the shoulder buttons, they are put back into the tab order and unhidden.
+
+Note that on mobile we do not manage the tab order and hidden state of carousel items since the shoulder buttons are not visible. Because of this, be careful putting too many elements into this on mobile, as users of assistive technologies will have to navigate through each element in the carousel, whether or not it's visible.
 
 ## UI development browser support
 
@@ -41,7 +44,13 @@ import "@alaskaairux/auro-carousel";
 **Reference component in HTML**
 
 ```html
-<auro-carousel>Hello World</auro-carousel>
+<auro-carousel label="Images">
+    <img src="./image1" alt="Image 1 alt" />
+    <img src="./image2" alt="Image 2 alt" />
+    <img src="./image3" alt="Image 3 alt" />
+    <img src="./image4" alt="Image 4 alt" />
+    <img src="./image5" alt="Image 5 alt" />
+</auro-carousel>
 ```
 
 ## Install bundled assets from CDN
@@ -71,16 +80,33 @@ The `polyfills.js` is packaged with this component, but **IT IS NOT NEEDED** to 
 
 The `<auro-carousel>` element should be used in situations where users may:
 
-* ...
-* ...
-* ...
+* scroll through multiple flight date options or "shoulder dates"
+* scroll through multiple images
 
 ## API Code Examples
 
 Default auro-carousel
 
 ```html
-<auro-carousel>Hello World</auro-carousel>
+<auro-carousel label="accessible label">
+    <img src="./image1" alt="Image 1 alt" />
+    <img src="./image2" alt="Image 2 alt" />
+    <img src="./image3" alt="Image 3 alt" />
+    <img src="./image4" alt="Image 4 alt" />
+    <img src="./image5" alt="Image 5 alt" />
+</auro-carousel>
+```
+
+auro-carousel with scroll distance set
+
+```html
+<auro-carousel scrolldistance=500 label="accessible label">
+    <img src="./image1" alt="Image 1 alt" />
+    <img src="./image2" alt="Image 2 alt" />
+    <img src="./image3" alt="Image 3 alt" />
+    <img src="./image4" alt="Image 4 alt" />
+    <img src="./image5" alt="Image 5 alt" />
+</auro-carousel>
 ```
 
 ## Development
