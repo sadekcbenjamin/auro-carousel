@@ -71,7 +71,8 @@
     }
   }
 
-  &.carousel--scrolledToStart::before, &.carousel--scrolledToEnd::after {
+  &.carousel--scrolledToStart::before, 
+  &.carousel--scrolledToEnd::after {
     display: none;
   }
 }
@@ -96,7 +97,7 @@
 // This allows querying of the breakpoint from Javascript
 // without hard-coding the design token
 // https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
-.breakpoint-detector::before {
+.breakpointDetector::before {
   display: none;
   
   @include auro_breakpoint--sm {

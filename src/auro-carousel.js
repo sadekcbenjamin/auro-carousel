@@ -77,7 +77,7 @@ class AuroCarousel extends LitElement {
    * @returns {boolean} true if the screen is small
    */
   isSmallScreen() {
-    const breakpointDetector = this.renderRoot.querySelector('.breakpoint-detector');
+    const breakpointDetector = this.renderRoot.querySelector('.breakpointDetector');
     // CSS sets content of pseudoelement based on media query
     // This prevents duplicating the breakpoints in CSS and JS
     const currentBreakpoint = window.
@@ -225,7 +225,7 @@ class AuroCarousel extends LitElement {
 
     return html`
       ${iconProperties}
-      <div class="breakpoint-detector"></div>
+      <div class="breakpointDetector"></div>
       <div role="group" 
         aria-label="${ifDefined(this.label)}" 
         aria-roledescription="carousel"

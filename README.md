@@ -2,7 +2,7 @@
 
 `<auro-carousel>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) that displays a group of elements in a scrollable container.
 
-auro-carousel attempts to improve the experience of assistive technology users by managing the tabIndex and hidden state of items in the carousel. Elements not currently visible in the scrollable container are removed from the tab 
+auro-carousel improves the experience of assistive technology users by managing the tabIndex and hidden state of items in the carousel. Elements not currently visible in the scrollable container are removed from the tab 
 order and removed from the accessibility tree. This is to prevent users from tabbing through a large amount of items in the carousel that would otherwise be out of view. When elements are scrolled into view using the shoulder buttons, they are put back into the tab order and unhidden.
 
 Note that on mobile we do not manage the tab order and hidden state of carousel items since the shoulder buttons are not visible. Because of this, be careful putting too many elements into this on mobile, as users of assistive technologies will have to navigate through each element in the carousel, whether or not it's visible.
