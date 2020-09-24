@@ -5,14 +5,11 @@
 
 import { LitElement, html, css } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
-import { unsafeSVG } from "lit-html/directives/unsafe-svg";
 import { ifDefined } from "lit-html/directives/if-defined";
 
 import "focus-visible/dist/focus-visible.min.js";
 import styleCss from "./style-css.js";
-import iconProperties from '@alaskaairux/icons/dist/tokens/CSSTokenProperties-css.js';
-import chevronRightIcon from "@alaskaairux/icons/dist/icons/interface/chevron-right_es6";
-import chevronLeftIcon from "@alaskaairux/icons/dist/icons/interface/chevron-left_es6";
+import "@alaskaairux/auro-icon";
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
@@ -224,7 +221,6 @@ class AuroCarousel extends LitElement {
     }
 
     return html`
-      ${iconProperties}
       <div class="breakpointDetector"></div>
       <div role="group" 
         aria-label="${ifDefined(this.label)}" 
@@ -232,13 +228,13 @@ class AuroCarousel extends LitElement {
         class="${classMap(carouselClassMap)}" 
         @scroll=${() => this.setScrollFlags(true)} >
         <button @click=${() => this.handleClick(false)} class="button button--left">
-          ${unsafeSVG(chevronLeftIcon.svg)}<span class="util_displayHiddenVisually">Scroll left</span>
+          <auro-icon category="interface" name="chevron-left">Scroll left</auro-icon>
         </button>
         <div class="container">
           <slot @slotchange=${this.handleSlotChange}></slot>
         </div>
         <button @click=${() => this.handleClick(true)} class="button button--right">
-          ${unsafeSVG(chevronRightIcon.svg)}<span class="util_displayHiddenVisually">Scroll right</span>
+          <auro-icon category="interface" name="chevron-right">Scroll right</auro-icon>
         </button>
       </div>
     `;

@@ -9,7 +9,6 @@
 
 @import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/breakpoints";
 @import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/core";
-@import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/utilityClasses/displayProperties";
 
 :host {
   display: block;
@@ -153,14 +152,14 @@
   display: none; 
 }
 
-svg {
+auro-icon {
   margin-top: 3px;
 }
 
-.button--left svg {
+.button--left auro-icon {
   margin-right: 2px;
 }
 
-.button--right svg {
+.button--right auro-icon {
   margin-left: 2px;
 }
