@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [1.1.0](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.0.0...v1.1.0) (2020-09-30)
+
+
+### Features
+
+* sticks navigation arrows to sides of carousel ([552a9b4](https://github.com/AlaskaAirlines/auro-carousel/commit/552a9b4e37ada48cc27f3ebe348a5ad3115692de))
+
 # 1.0.0 (2020-09-24)
 
 
