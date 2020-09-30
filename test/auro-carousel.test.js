@@ -26,6 +26,13 @@ describe('auro-carousel', () => {
     expect(el.carousel.getAttribute('aria-label')).to.equal('buttons');
   });
 
+  it('sticks the navigation arrows properly', async () => {
+    const el = await getDefaultFixture();
+    el.carousel.setAttribute('displayArrows', true);
+    expect(el.carousel.querySelector('.carousel--scrolledToStart')).to.equal(null);
+    expect(el.carousel.querySelector('.carousel--scrolledToEnd')).to.equal(null);
+  })
+
   it('scrolls the container right when right button clicked', async () => {
     const el = await getDefaultFixture();
     rightButton(el).click();

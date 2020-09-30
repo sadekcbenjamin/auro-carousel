@@ -15,6 +15,7 @@ import "@alaskaairux/auro-icon";
 /**
  * auro-carousel displays a group of elements in a scrollable container.
  *
+ * @attr {Boolean} displayArrows - Forces left and right navigation to stick in DOM regardless of content width
  * @attr {Number} scrollDistance - How many pixels to scroll the carousel when the shoulder buttons are triggered.
  * @attr {String} label - The accessible name for the carousel. Logs a console warning if not set.
  *
@@ -41,6 +42,7 @@ class AuroCarousel extends LitElement {
 
   static get properties() {
     return {
+      displayArrows: {type: Boolean},
       scrollDistance: {
         type: Number,
         reflect: true
@@ -216,8 +218,8 @@ class AuroCarousel extends LitElement {
   render() {
     const carouselClassMap = {
       "carousel": true,
-      "carousel--scrolledToStart": this.scrolledToStart,
-      "carousel--scrolledToEnd": this.scrolledToEnd
+      "carousel--scrolledToStart": this.scrolledToStart && !this.displayArrows,
+      "carousel--scrolledToEnd": this.scrolledToEnd && !this.displayArrows
     }
 
     return html`
