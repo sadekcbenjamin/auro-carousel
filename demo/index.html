@@ -26,21 +26,21 @@
     <h2>Carousel of auro-panes</h2>
     <demo-snippet>
       <template>
-        <auro-carousel label="Flight options">
-          <auro-pane date="2020-10-10"></auro-pane>
-          <auro-pane date="2020-10-11"></auro-pane>
-          <auro-pane date="2020-10-12"></auro-pane>
-          <auro-pane date="2020-10-13" selected></auro-pane>
-          <auro-pane date="2020-10-14"></auro-pane>
-          <auro-pane date="2020-10-15"></auro-pane>
-          <auro-pane date="2020-10-16"></auro-pane>
-          <auro-pane date="2020-10-17"></auro-pane>
-          <auro-pane date="2020-10-18"></auro-pane>
-          <auro-pane date="2020-10-19"></auro-pane>
-          <auro-pane date="2020-10-16"></auro-pane>
-          <auro-pane date="2020-10-17"></auro-pane>
-          <auro-pane date="2020-10-18"></auro-pane>
-          <auro-pane date="2020-10-19"></auro-pane>
+        <auro-carousel label="Flight options" scrollDistance="420">
+          <auro-pane date="2020-10-10" price="$435"></auro-pane>
+          <auro-pane date="2020-10-11" price="$435"></auro-pane>
+          <auro-pane date="2020-10-12" price="$435"></auro-pane>
+          <auro-pane date="2020-10-13" selected price="$435"></auro-pane>
+          <auro-pane date="2020-10-14" price="$435" disabled></auro-pane>
+          <auro-pane date="2020-10-15" price="$435"></auro-pane>
+          <auro-pane date="2020-10-16" price="$435"></auro-pane>
+          <auro-pane date="2020-10-17" price="$435"></auro-pane>
+          <auro-pane date="2020-10-18" price="$435"></auro-pane>
+          <auro-pane date="2020-10-19" price="$435"></auro-pane>
+          <auro-pane date="2020-10-16" price="$435"></auro-pane>
+          <auro-pane date="2020-10-17" price="$435"></auro-pane>
+          <auro-pane date="2020-10-18" price="$435"></auro-pane>
+          <auro-pane date="2020-10-19" price="$435"></auro-pane>
         </auro-carousel>
         <script>
           const panes = document.querySelectorAll('auro-pane');
@@ -83,14 +83,14 @@
           <auro-pane date="2020-10-19"></auro-pane>
         </auro-carousel>
 
-      </template>\
-    </demo-snippet>        
+      </template>
+    </demo-snippet>
 
 
     <h2>Carousel of images</h2>
     <demo-snippet>
       <template>
-        <auro-carousel id="images" label="Images" scrolldistance=500>
+        <auro-carousel id="images" label="Images">
           <img src="https://picsum.photos/200?random=1" alt="Random image 1">
           <img src="https://picsum.photos/200?random=2" alt="Random image 2">
           <img src="https://picsum.photos/200?random=3" alt="Random image 3">
@@ -110,7 +110,7 @@
         <script>
           const range = document.querySelector("#scrolldistance");
           const carousel = document.querySelector("auro-carousel#images");
-          
+
           range.addEventListener('input', (e) => {
             carousel.scrollDistance = e.target.value;
           });
