@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [1.2.0](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.1.0...v1.2.0) (2020-10-02)
+
+
+### Features
+
+* add event to emit for scroll action ([e859d87](https://github.com/AlaskaAirlines/auro-carousel/commit/e859d879edaec5dd28a887c4424a9e44d469eeda))
+
 # [1.1.0](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.0.0...v1.1.0) (2020-09-30)
 
 
