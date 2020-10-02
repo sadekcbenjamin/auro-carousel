@@ -16,6 +16,13 @@ auro-carousel displays a group of elements in a scrollable container.
 |------------------|-----------------------|--------------------------------------------------|
 | `scrollCarousel` | `(num: number): void` | Scrolls the carousel by the given amount.<br /><br />**num**: the number of pixels to scroll the carousel by. Positive scrolls to the<br />right, negative scrolls to the left. |
 
+## Events
+
+| Event         | Type               |
+|---------------|--------------------|
+| `scrollLeft`  | `CustomEvent<any>` |
+| `scrollRight` | `CustomEvent<any>` |
+
 ## Slots
 
 | Name | Description                  |

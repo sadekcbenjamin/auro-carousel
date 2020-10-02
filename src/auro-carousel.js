@@ -208,11 +208,21 @@ class AuroCarousel extends LitElement {
    * @return {void}
    */
   handleClick(scrollRight) {
+    let click;
     if (scrollRight) {
       this.scrollCarousel(this.scrollDistance)
+      click = new CustomEvent('scrollRight', {
+        bubbles: true,
+        composed: true,
+      });
     } else {
       this.scrollCarousel(-1 * this.scrollDistance);
+      click = new CustomEvent('scrollLeft', {
+        bubbles: true,
+        composed: true,
+      });
     }
+    this.dispatchEvent(click);
   }
 
   render() {

@@ -51,6 +51,15 @@
             selectedPane = pane;
           }));
         </script>
+        <script>
+          let carouselDemo = document.querySelector('auro-carousel');
+          carouselDemo.addEventListener('scrollRight', (e) => {
+            console.log('right click', e);
+          })
+          carouselDemo.addEventListener('scrollLeft', (e) => {
+            console.log('left click', e);
+          })
+        </script>
       </template>
     </demo-snippet>
 
@@ -73,8 +82,10 @@
           <auro-pane date="2020-10-18"></auro-pane>
           <auro-pane date="2020-10-19"></auro-pane>
         </auro-carousel>
-      </template>
-    </demo-snippet>
+
+      </template>\
+    </demo-snippet>        
+
 
     <h2>Carousel of images</h2>
     <demo-snippet>
