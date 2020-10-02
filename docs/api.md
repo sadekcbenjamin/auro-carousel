@@ -18,10 +18,10 @@ auro-carousel displays a group of elements in a scrollable container.
 
 ## Events
 
-| Event         | Type               |
-|---------------|--------------------|
-| `scrollLeft`  | `CustomEvent<any>` |
-| `scrollRight` | `CustomEvent<any>` |
+| Event         | Type               | Description                                      |
+|---------------|--------------------|--------------------------------------------------|
+| `scrollLeft`  | `CustomEvent<any>` | when the guest clicks the 'left' carousel button |
+| `scrollRight` | `CustomEvent<any>` | when the guest clicks the 'right' carousel button |
 
 ## Slots
 

@@ -20,6 +20,9 @@ import "@alaskaairux/auro-icon";
  * @attr {String} label - The accessible name for the carousel. Logs a console warning if not set.
  *
  * @slot - the elements in the carousel
+ *
+ * @event scrollRight - when the guest clicks the 'right' carousel button
+ * @event scrollLeft - when the guest clicks the 'left' carousel button
  */
 
 class AuroCarousel extends LitElement {
@@ -208,7 +211,8 @@ class AuroCarousel extends LitElement {
    * @return {void}
    */
   handleClick(scrollRight) {
-    let click;
+    let click = null;
+
     if (scrollRight) {
       this.scrollCarousel(this.scrollDistance)
       click = new CustomEvent('scrollRight', {
