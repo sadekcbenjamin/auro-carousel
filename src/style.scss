@@ -38,7 +38,8 @@
     &::before, &::after {
       content: '';
       height: 100%;
-      width: 6.5rem;
+      width: 8.75rem;
+      pointer-events: none;
       display: block;
       position: absolute;
       top: 50%;
