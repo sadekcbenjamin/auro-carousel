@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [1.2.1](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.0...v1.2.1) (2020-10-13)
+
+
+### Bug Fixes
+
+* increase gradient width ([f574e20](https://github.com/AlaskaAirlines/auro-carousel/commit/f574e20c3d8aac7aabed025247d6de922843c7b4))
+
 # [1.2.0](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.1.0...v1.2.0) (2020-10-02)
 
 
