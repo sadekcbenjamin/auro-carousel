@@ -238,19 +238,19 @@ class AuroCarousel extends LitElement {
 
     return html`
       <div class="breakpointDetector"></div>
-      <div role="group" 
-        aria-label="${ifDefined(this.label)}" 
+      <div role="group"
+        aria-label="${ifDefined(this.label)}"
         aria-roledescription="carousel"
-        class="${classMap(carouselClassMap)}" 
+        class="${classMap(carouselClassMap)}"
         @scroll=${() => this.setScrollFlags(true)} >
         <button @click=${() => this.handleClick(false)} class="button button--left">
-          <auro-icon category="interface" name="chevron-left">Scroll left</auro-icon>
+          <auro-icon customColor category="interface" name="chevron-left">Scroll left</auro-icon>
         </button>
         <div class="container">
           <slot @slotchange=${this.handleSlotChange}></slot>
         </div>
         <button @click=${() => this.handleClick(true)} class="button button--right">
-          <auro-icon category="interface" name="chevron-right">Scroll right</auro-icon>
+          <auro-icon customColor category="interface" name="chevron-right">Scroll right</auro-icon>
         </button>
       </div>
     `;
