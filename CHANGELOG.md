@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [1.2.2](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.1...v1.2.2) (2020-10-19)
+
+
+### Bug Fixes
+
+* update auro-icon to use new customColor attr ([643c3b6](https://github.com/AlaskaAirlines/auro-carousel/commit/643c3b6b968084738fad00186726864e4a524a7c))
+
 ## [1.2.1](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.0...v1.2.1) (2020-10-13)
 
 
