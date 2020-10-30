@@ -2,7 +2,7 @@
 
 `<auro-carousel>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) that displays a group of elements in a scrollable container.
 
-auro-carousel improves the experience of assistive technology users by managing the tabIndex and hidden state of items in the carousel. Elements not currently visible in the scrollable container are removed from the tab 
+auro-carousel improves the experience of assistive technology users by managing the tabIndex and hidden state of items in the carousel. Elements not currently visible in the scrollable container are removed from the tab
 order and removed from the accessibility tree. This is to prevent users from tabbing through a large amount of items in the carousel that would otherwise be out of view. When elements are scrolled into view using the shoulder buttons, they are put back into the tab order and unhidden.
 
 Note that on mobile we do not manage the tab order and hidden state of carousel items since the shoulder buttons are not visible. Because of this, be careful putting too many elements into this on mobile, as users of assistive technologies will have to navigate through each element in the carousel, whether or not it's visible.
@@ -13,7 +13,7 @@ For the most up to date information on [UI development browser support](https://
 
 ## Install
 
-[![Build Status](https://img.shields.io/travis/AlaskaAirlines/auro-carousel?branch=master&style=for-the-badge)](https://travis-ci.org/github/AlaskaAirlines/auro-carousel)
+[![Build Status](https://img.shields.io/github/workflow/status/AlaskaAirlines/auro-carousel/Test%20and%20publish?branch=master&style=for-the-badge)](https://github.com/AlaskaAirlines/auro-carousel/actions?query=workflow%3A%22test+and+publish%22)
 [![See it on NPM!](https://img.shields.io/npm/v/@alaskaairux/auro-carousel?style=for-the-badge&color=orange)](https://www.npmjs.com/package/@alaskaairux/auro-carousel)
 [![License](https://img.shields.io/npm/l/@alaskaairux/auro-carousel?color=blue&style=for-the-badge)](https://www.apache.org/licenses/LICENSE-2.0)
 
