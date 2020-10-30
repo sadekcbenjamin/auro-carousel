@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [1.2.3](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.2...v1.2.3) (2020-10-30)
+
+
+### Bug Fixes
+
+* move from travis to GHA ([62f7690](https://github.com/AlaskaAirlines/auro-carousel/commit/62f76907ef4de4124399f8e82d113163bb10a580))
+
 ## [1.2.2](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.1...v1.2.2) (2020-10-19)
 
 
