@@ -121,6 +121,7 @@
     cursor: pointer;
     color: var(--auro-color-ui-default-on-light);
     padding: 0;
+    z-index: 1;
 
     &:hover {
       background: var(--auro-color-ui-default-on-light);
