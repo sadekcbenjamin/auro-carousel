@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [1.2.4](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.3...v1.2.4) (2020-11-20)
+
+
+### Bug Fixes
+
+* transformed child obscuring left toggle ([1435325](https://github.com/AlaskaAirlines/auro-carousel/commit/14353256fabac78b36a24e926f2a4bcefc7d9f4e))
+
 ## [1.2.3](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.2...v1.2.3) (2020-10-30)
 
 
