@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [1.2.5](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.4...v1.2.5) (2021-03-03)
+
+
+### Bug Fixes
+
+* remove dependency on auro-icon ([394d6bf](https://github.com/AlaskaAirlines/auro-carousel/commit/394d6bf4b52cb1a58b401b371d7967b7f0c866bf))
+
 ## [1.2.4](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.3...v1.2.4) (2020-11-20)
 
 
