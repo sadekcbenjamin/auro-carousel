@@ -9,7 +9,9 @@ import { ifDefined } from "lit-html/directives/if-defined";
 
 import "focus-visible/dist/focus-visible.min.js";
 import styleCss from "./style-css.js";
-import "@alaskaairux/auro-icon";
+import chevronRight from '@alaskaairux/icons/dist/icons/interface/chevron-right_es6.js';
+import chevronLeft from '@alaskaairux/icons/dist/icons/interface/chevron-left_es6.js';
+// import "@alaskaairux/auro-icon";
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
@@ -71,6 +73,18 @@ class AuroCarousel extends LitElement {
     this.setScrollFlags(false);
     this.setUpIntersectionObserver();
     this.setUpResizeObserver();
+  }
+
+  /**
+   * @private Internal function to generate the HTML for the icon to use
+   * @param {string} svgContent - The imported svg icon
+   * @returns {TemplateResult} - The html template for the icon
+   */
+  generateIconHtml(svgContent) {
+    const dom = new DOMParser().parseFromString(svgContent, 'text/html'),
+    svg = dom.body.firstChild;
+
+    return svg
   }
 
   /**
@@ -244,13 +258,13 @@ class AuroCarousel extends LitElement {
         class="${classMap(carouselClassMap)}"
         @scroll=${() => this.setScrollFlags(true)} >
         <button @click=${() => this.handleClick(false)} class="button button--left">
-          <auro-icon customColor category="interface" name="chevron-left">Scroll left</auro-icon>
+          ${this.generateIconHtml(chevronLeft.svg)}<span class="util_displayHiddenVisually">Scroll Left</span>
         </button>
         <div class="container">
           <slot @slotchange=${this.handleSlotChange}></slot>
         </div>
         <button @click=${() => this.handleClick(true)} class="button button--right">
-          <auro-icon customColor category="interface" name="chevron-right">Scroll right</auro-icon>
+          ${this.generateIconHtml(chevronRight.svg)}<span class="util_displayHiddenVisually">Scroll Right</span>
         </button>
       </div>
     `;

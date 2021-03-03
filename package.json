@@ -18,14 +18,13 @@
   "main": "index.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "@alaskaairux/auro-icon": "^2.0.3",
     "chalk": "^4.1.0",
     "lit-element": "^2.4.0"
   },
   "peerDependencies": {
-    "@alaskaairux/orion-design-tokens": "^2.12.2",
-    "@alaskaairux/orion-web-core-style-sheets": "^2.12.1",
-    "@alaskaairux/icons": "^4.0.2",
+    "@alaskaairux/orion-design-tokens": "^2.12.3",
+    "@alaskaairux/orion-web-core-style-sheets": "^2.12.2",
+    "@alaskaairux/icons": "^4.4.4",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "focus-visible": "^5.2.0"
   },

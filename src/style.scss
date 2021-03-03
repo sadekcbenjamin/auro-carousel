@@ -10,6 +10,8 @@
 @import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/breakpoints";
 @import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/core";
 
+@import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/utilityClasses/displayProperties";
+
 :host {
   display: block;
   position: relative;
@@ -56,7 +58,7 @@
         hsla(0,0%,100%,0.92) 88%,
         hsl(0,0%,100%) 100%
       );
-      
+
       z-index: 0;
     }
 
@@ -71,7 +73,7 @@
     }
   }
 
-  &.carousel--scrolledToStart::before, 
+  &.carousel--scrolledToStart::before,
   &.carousel--scrolledToEnd::after {
     display: none;
   }
@@ -99,7 +101,7 @@
 // https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
 .breakpointDetector::before {
   display: none;
-  
+
   @include auro_breakpoint--sm {
     content: "sm";
   }
@@ -107,7 +109,7 @@
 
 .button {
   display: none;
-  
+
   @include auro_breakpoint--sm {
     display: block;
     position: absolute;
@@ -150,8 +152,8 @@
   display: none;
 }
 
-.carousel--scrolledToEnd .button--right { 
-  display: none; 
+.carousel--scrolledToEnd .button--right {
+  display: none;
 }
 
 auro-icon {
