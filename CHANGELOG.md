@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [1.2.6](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.5...v1.2.6) (2022-05-03)
+
+
+### Bug Fixes
+
+* **icon:** adjust line-height of toggle icon [#15](https://github.com/AlaskaAirlines/auro-carousel/issues/15) ([e7d3ff2](https://github.com/AlaskaAirlines/auro-carousel/commit/e7d3ff2d8dab73ae11ce302d1872cdd5f9265879))
+
 ## [1.2.5](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.4...v1.2.5) (2021-03-03)
 
 
