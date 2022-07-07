@@ -115,6 +115,24 @@ class AuroCarousel extends LitElement {
   }
 
   /**
+   * Centers the given element inside the carousel.
+   * @param {Element} el - the element to center inside the carousel. Must be a descendant of the carousel.
+   * @return {void}
+   */
+  centerElement(el) {
+    if (!this.contains(el)) {
+      throw new Error('Element is not a descendant of this carousel');
+    }
+
+    const middleX = el.getBoundingClientRect().x - this.getBoundingClientRect().left;
+    const carouselMiddle = this.offsetWidth / 2;
+    const elCenter = el.offsetWidth / 2;
+    const scrollTotal = middleX - carouselMiddle + elCenter;
+
+    this.scrollCarousel(scrollTotal);
+  }
+
+  /**
    * Internal method to set scrolledToStart and scrolledToEnd
    * @private
    * @param {boolean} autofocus - true if the first or last element should be focused when scrolled to

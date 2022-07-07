@@ -26,7 +26,7 @@
     <h2>Carousel of auro-panes</h2>
     <demo-snippet>
       <template>
-        <auro-carousel label="Flight options" scrollDistance="420">
+        <auro-carousel label="Flight options" scrollDistance="420" id="demo1">
           <auro-pane date="2020-10-10" price="$435"></auro-pane>
           <auro-pane date="2020-10-11" price="$435"></auro-pane>
           <auro-pane date="2020-10-12" price="$435"></auro-pane>
@@ -42,23 +42,60 @@
           <auro-pane date="2020-10-18" price="$435"></auro-pane>
           <auro-pane date="2020-10-19" price="$435"></auro-pane>
         </auro-carousel>
-        <script>
-          const panes = document.querySelectorAll('auro-pane');
-          let selectedPane = document.querySelector('auro-pane[selected]');
-          panes.forEach(pane => pane.addEventListener('click', () => {
-            selectedPane.selected = false;
-            pane.selected = true;
-            selectedPane = pane;
-          }));
-        </script>
-        <script>
-          let carouselDemo = document.querySelector('auro-carousel');
+        <script type="module">
+          let carouselDemo = document.querySelector('auro-carousel#demo1');
           carouselDemo.addEventListener('scrollRight', (e) => {
             console.log('right click', e);
           })
           carouselDemo.addEventListener('scrollLeft', (e) => {
             console.log('left click', e);
           })
+          const panes = carouselDemo.querySelectorAll('auro-pane');
+          let selectedPane = carouselDemo.querySelector('auro-pane[selected]');
+          panes.forEach(pane => pane.addEventListener('click', () => {
+            selectedPane.selected = false;
+            pane.selected = true;
+            selectedPane = pane;
+          }));
+        </script>
+      </template>
+    </demo-snippet>
+
+    <h2>Carousel of auro-panes with centerElement</h2>
+    <demo-snippet>
+      <template>
+        <auro-carousel label="Flight options" scrollDistance="420" id="demo2">
+          <auro-pane date="2020-10-10" price="$435"></auro-pane>
+          <auro-pane date="2020-10-11" price="$435"></auro-pane>
+          <auro-pane date="2020-10-12" price="$435"></auro-pane>
+          <auro-pane date="2020-10-13" selected price="$435"></auro-pane>
+          <auro-pane date="2020-10-14" price="$435" disabled></auro-pane>
+          <auro-pane date="2020-10-15" price="$435"></auro-pane>
+          <auro-pane date="2020-10-16" price="$435"></auro-pane>
+          <auro-pane date="2020-10-17" price="$435"></auro-pane>
+          <auro-pane date="2020-10-18" price="$435"></auro-pane>
+          <auro-pane date="2020-10-19" price="$435"></auro-pane>
+          <auro-pane date="2020-10-16" price="$435"></auro-pane>
+          <auro-pane date="2020-10-17" price="$4435"></auro-pane>
+          <auro-pane date="2020-10-18" price="$435"></auro-pane>
+          <auro-pane date="2020-10-19" price="$435"></auro-pane>
+          <auro-pane date="2020-10-18" price="$435"></auro-pane>
+          <auro-pane date="2020-10-19" price="$435"></auro-pane>
+          <auro-pane date="2020-10-16" price="$435"></auro-pane>
+          <auro-pane date="2020-10-17" price="$435"></auro-pane>
+          <auro-pane date="2020-10-18" price="$435"></auro-pane>
+          <auro-pane date="2020-10-19" price="$435"></auro-pane>
+        </auro-carousel>
+        <script type="module">
+          const carousel = document.querySelector('auro-carousel#demo2');
+          const panes = carousel.querySelectorAll('auro-pane');
+          let selectedPane = carousel.querySelector('auro-pane[selected]');
+          panes.forEach(pane => pane.addEventListener('click', () => {
+            selectedPane.selected = false;
+            pane.selected = true;
+            selectedPane = pane;
+            carousel.centerElement(selectedPane);
+          }));
         </script>
       </template>
     </demo-snippet>
