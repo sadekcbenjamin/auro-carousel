@@ -110,6 +110,21 @@ describe('auro-carousel', () => {
     await expectA11yPropertiesNotToBeSet(el.lastElementChild);
   })
 
+  describe('centerElement', () => {
+    it('centers child element', async () => {
+      const el = await getDefaultFixture();
+      const elementToCenter = el.querySelectorAll('button')[5];
+      el.centerElement(elementToCenter);
+      expect(el.carousel.scrollLeft).to.equal(261);
+    })
+
+    it('throws an error when element is not a descendant', async () => {
+      const el = await getDefaultFixture();
+      const div = document.createElement('div');
+      expect(() => el.centerElement(div)).to.throw();
+    })
+  })
+
   async function getDefaultFixture(scrollDistance) {
     // set width on component to force it to overflow
     const el = await fixture(html`
