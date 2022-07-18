@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [1.3.0](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.6...v1.3.0) (2022-07-18)
+
+
+### Features
+
+* add centerElement method ([5cdadb4](https://github.com/AlaskaAirlines/auro-carousel/commit/5cdadb48b1371bffcef6d81c5b126c9d340a389c))
+
 ## [1.2.6](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.5...v1.2.6) (2022-05-03)
 
 
