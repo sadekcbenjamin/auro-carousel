@@ -14,6 +14,7 @@ auro-carousel displays a group of elements in a scrollable container.
 
 | Method           | Type                  | Description                                      |
 |------------------|-----------------------|--------------------------------------------------|
+| `centerElement`  | `(el: Element): void` | Centers the given element inside the carousel.<br /><br />**el**: the element to center inside the carousel. Must be a descendant of the carousel. |
 | `scrollCarousel` | `(num: number): void` | Scrolls the carousel by the given amount.<br /><br />**num**: the number of pixels to scroll the carousel by. Positive scrolls to the<br />right, negative scrolls to the left. |
 
 ## Events

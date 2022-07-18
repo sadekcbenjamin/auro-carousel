@@ -42,16 +42,21 @@
           <auro-pane date="2020-10-18" price="$435"></auro-pane>
           <auro-pane date="2020-10-19" price="$435"></auro-pane>
         </auro-carousel>
+
         <script type="module">
           let carouselDemo = document.querySelector('auro-carousel#demo1');
+
           carouselDemo.addEventListener('scrollRight', (e) => {
             console.log('right click', e);
           })
+
           carouselDemo.addEventListener('scrollLeft', (e) => {
             console.log('left click', e);
           })
+
           const panes = carouselDemo.querySelectorAll('auro-pane');
           let selectedPane = carouselDemo.querySelector('auro-pane[selected]');
+
           panes.forEach(pane => pane.addEventListener('click', () => {
             selectedPane.selected = false;
             pane.selected = true;
@@ -86,10 +91,12 @@
           <auro-pane date="2020-10-18" price="$435"></auro-pane>
           <auro-pane date="2020-10-19" price="$435"></auro-pane>
         </auro-carousel>
+
         <script type="module">
           const carousel = document.querySelector('auro-carousel#demo2');
           const panes = carousel.querySelectorAll('auro-pane');
           let selectedPane = carousel.querySelector('auro-pane[selected]');
+
           panes.forEach(pane => pane.addEventListener('click', () => {
             selectedPane.selected = false;
             pane.selected = true;
@@ -97,6 +104,7 @@
             carousel.centerElement(selectedPane);
           }));
         </script>
+
       </template>
     </demo-snippet>
 
@@ -144,6 +152,7 @@
         </auro-carousel>
         <label for="scrolldistance">Scroll distance (50-1000):</label>
         <input type="range" min="50" max="1000" id="scrolldistance">
+
         <script>
           const range = document.querySelector("#scrolldistance");
           const carousel = document.querySelector("auro-carousel#images");
