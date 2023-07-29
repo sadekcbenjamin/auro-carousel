@@ -20,6 +20,7 @@ import chevronLeft from '@alaskaairux/icons/dist/icons/interface/chevron-left_es
  * @attr {Boolean} displayArrows - Forces left and right navigation to stick in DOM regardless of content width
  * @attr {Number} scrollDistance - How many pixels to scroll the carousel when the shoulder buttons are triggered.
  * @attr {String} label - The accessible name for the carousel. Logs a console warning if not set.
+ * @attr {String} centerSelected - Apply to outer auro-carousel element to automatically center the selected node on UI render.
  *
  * @slot - the elements in the carousel
  *
@@ -53,6 +54,10 @@ class AuroCarousel extends LitElement {
         reflect: true
       },
       label: { type: String },
+      centerSelected: {
+        type: String,
+        reflect: true
+      }
     };
   }
 
@@ -73,6 +78,41 @@ class AuroCarousel extends LitElement {
     this.setScrollFlags(false);
     this.setUpIntersectionObserver();
     this.setUpResizeObserver();
+    if (this.hasAttribute('centerSelected')) {
+      this.actionOnChildrenReady();
+    }
+  }
+
+  /**
+   * function handler for anything that happens when all its children is ready
+   * @return {void}
+   */
+  actionOnChildrenReady() {
+    const promises = [];
+
+    [...this.children].forEach((child) => {
+      // Here is the check the 'updateComplete' property of its child. Only works on lit-element.
+      // This only works if this component is imported AFTER its child component.
+      // Otherwise child.updateComplete would be undefined.
+      promises.push(child.updateComplete);
+    })
+
+    Promise.all(promises).then(() => {
+      // anything to do here on resolve
+      this.scrollToSelected();
+    });
+  }
+
+  /**
+   * Scroll to the first child component that have 'selected' attribute
+   * @return {void}
+   */
+  scrollToSelected() {
+    const selectedChildren = [...this.children].find((child) => child.hasAttribute('selected'));
+
+    if (selectedChildren) {
+      this.centerElement(selectedChildren);
+    }
   }
 
   /**
