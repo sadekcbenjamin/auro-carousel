@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [1.4.0](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.3.0...v1.4.0) (2023-07-29)
+
+
+### Features
+
+* add centerSelectedOnRender property [#24](https://github.com/AlaskaAirlines/auro-carousel/issues/24) ([d677729](https://github.com/AlaskaAirlines/auro-carousel/commit/d677729fc79700e949d6a127433aa506dbbbfa61))
+
 # [1.3.0](https://github.com/AlaskaAirlines/auro-carousel/compare/v1.2.6...v1.3.0) (2022-07-18)
 
 
