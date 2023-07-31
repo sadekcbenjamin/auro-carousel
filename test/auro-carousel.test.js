@@ -1,4 +1,4 @@
-import { fixture, html, expect } from '@open-wc/testing';
+import { fixture, html, expect, waitUntil } from '@open-wc/testing';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import '../src/auro-carousel.js';
 
@@ -125,10 +125,36 @@ describe('auro-carousel', () => {
     })
   })
 
-  async function getDefaultFixture(scrollDistance) {
+  describe('centerSelected feature', () => {
+    it('centers selected element on render with centerSelected property', async () => {
+      const el = await getCenterSelectedFixture();
+      const targetElement = [...el.children].find((child) => child.hasAttribute('selected'));
+      await waitUntil(() => isInViewport(targetElement), 'Element should become visible', { interval: 10, timeout: 2000 });
+      expect(isInViewport(targetElement)).to.be.true;
+    })
+  })
+
+  async function getCenterSelectedFixture() {
+    return fixture(html`
+      <auro-carousel label="buttons" centerSelected>
+        <button style="width: 200px">Button 1</button>
+        <button style="width: 200px">Button 2</button>
+        <button style="width: 200px">Button 3</button>
+        <button style="width: 200px">Button 4</button>
+        <button style="width: 200px">Button 5</button>
+        <button style="width: 200px" selected>Button 6</button>
+        <button style="width: 200px">Button 7</button>
+        <button style="width: 200px">Button 8</button>
+        <button style="width: 200px">Button 9</button>
+        <button style="width: 200px">Button 10</button>
+      </auro-carousel>
+    `)
+  }
+
+  async function getDefaultFixture(scrollDistance, noLabel = false) {
     // set width on component to force it to overflow
     const el = await fixture(html`
-      <auro-carousel label="buttons" scrollDistance=${ifDefined(scrollDistance)} style="width: 200px;">
+      <auro-carousel label=${noLabel ? '' : 'buttons'} scrollDistance=${ifDefined(scrollDistance)} style="width: 200px;">
         <button>Button 1</button>
         <button>Button 2</button>
         <button>Button 3</button>
@@ -200,4 +226,14 @@ describe('auro-carousel', () => {
     var style = window.getComputedStyle(el);
     return (style.display === 'none');
   }
+
+  function isInViewport(targetElement) {
+    const rect = targetElement.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  };
 });
