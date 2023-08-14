@@ -3,19 +3,19 @@
 
 // ---------------------------------------------------------------------
 
-import { LitElement, html, css } from "lit-element";
-import { classMap } from "lit-html/directives/class-map";
-import { ifDefined } from "lit-html/directives/if-defined";
+/* eslint-disable jsdoc/no-undefined-types, max-lines */
 
-import "focus-visible/dist/focus-visible.min.js";
+import { LitElement, html, css } from "lit";
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+
 import styleCss from "./style-css.js";
 import chevronRight from '@alaskaairux/icons/dist/icons/interface/chevron-right_es6.js';
 import chevronLeft from '@alaskaairux/icons/dist/icons/interface/chevron-left_es6.js';
-// import "@alaskaairux/auro-icon";
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * auro-carousel displays a group of elements in a scrollable container.
+ * The auro-carousel component displays a group of elements in a scrollable container.
  *
  * @attr {Boolean} displayArrows - Forces left and right navigation to stick in DOM regardless of content width
  * @attr {Number} scrollDistance - How many pixels to scroll the carousel when the shoulder buttons are triggered.
@@ -28,20 +28,20 @@ import chevronLeft from '@alaskaairux/icons/dist/icons/interface/chevron-left_es
  * @event scrollLeft - when the guest clicks the 'left' carousel button
  */
 
-class AuroCarousel extends LitElement {
+export class AuroCarousel extends LitElement {
   constructor() {
     super();
     this.scrollDistance = 300;
 
     /**
-     * @private
      * Whether or not the carousel is scrolled to the start.
+     * @private
      */
     this.scrolledToStart = false;
 
     /**
-     * @private
      * Whether or not the carousel is scrolled to the end.
+     * @private
      */
     this.scrolledToEnd = false;
   }
@@ -78,33 +78,46 @@ class AuroCarousel extends LitElement {
     this.setScrollFlags(false);
     this.setUpIntersectionObserver();
     this.setUpResizeObserver();
+
     if (this.hasAttribute('centerSelected')) {
+
+      /**
+       * This function is called here here so that the tests will pass.
+       * It's called again on DOMContentLoaded so that it will work when carousel
+       * content is doesn't load until after the carousel component.
+       * e.g. loading auro-pane after auro-carousel.
+       */
       this.actionOnChildrenReady();
+
+      document.addEventListener("DOMContentLoaded", () => {
+        this.actionOnChildrenReady();
+      });
     }
   }
 
   /**
-   * function handler for anything that happens when all its children is ready
+   * Function handler for anything that happens when all its children is ready.
    * @return {void}
    */
   actionOnChildrenReady() {
     const promises = [];
 
     [...this.children].forEach((child) => {
+
       // Here is the check the 'updateComplete' property of its child. Only works on lit-element.
       // This only works if this component is imported AFTER its child component.
       // Otherwise child.updateComplete would be undefined.
       promises.push(child.updateComplete);
-    })
+    });
 
     Promise.all(promises).then(() => {
-      // anything to do here on resolve
+      // nything to do here on resolve
       this.scrollToSelected();
     });
   }
 
   /**
-   * Scroll to the first child component that have 'selected' attribute
+   * Scroll to the first child component that have 'selected' attribute.
    * @return {void}
    */
   scrollToSelected() {
@@ -116,21 +129,22 @@ class AuroCarousel extends LitElement {
   }
 
   /**
-   * @private Internal function to generate the HTML for the icon to use
-   * @param {string} svgContent - The imported svg icon
-   * @returns {TemplateResult} - The html template for the icon
+   * Internal function to generate the HTML for the icon to use.
+   * @private
+   * @param {string} svgContent - The imported svg icon.
+   * @returns {TemplateResult} - The html template for the icon.
    */
   generateIconHtml(svgContent) {
     const dom = new DOMParser().parseFromString(svgContent, 'text/html'),
-    svg = dom.body.firstChild;
+      svg = dom.body.firstChild;
 
-    return svg
+    return svg;
   }
 
   /**
    * Internal method to determine if the screen is small.
    * @private
-   * @returns {boolean} true if the screen is small
+   * @returns {boolean} True if the screen is small.
    */
   isSmallScreen() {
     const breakpointDetector = this.renderRoot.querySelector('.breakpointDetector');
@@ -146,7 +160,7 @@ class AuroCarousel extends LitElement {
 
   /**
    * Scrolls the carousel by the given amount.
-   * @param {number} num - the number of pixels to scroll the carousel by. Positive scrolls to the
+   * @param {number} num - The number of pixels to scroll the carousel by. Positive scrolls to the
    * right, negative scrolls to the left.
    * @return {void}
    */
@@ -156,7 +170,7 @@ class AuroCarousel extends LitElement {
 
   /**
    * Centers the given element inside the carousel.
-   * @param {Element} el - the element to center inside the carousel. Must be a descendant of the carousel.
+   * @param {Element} el - The element to center inside the carousel. Must be a descendant of the carousel.
    * @return {void}
    */
   centerElement(el) {
@@ -165,17 +179,17 @@ class AuroCarousel extends LitElement {
     }
 
     const middleX = el.getBoundingClientRect().x - this.getBoundingClientRect().left;
-    const carouselMiddle = this.offsetWidth / 2;
-    const elCenter = el.offsetWidth / 2;
+    const carouselMiddle = this.offsetWidth / 2; // eslint-disable-line no-magic-numbers
+    const elCenter = el.offsetWidth / 2; // eslint-disable-line no-magic-numbers
     const scrollTotal = middleX - carouselMiddle + elCenter;
 
     this.scrollCarousel(scrollTotal);
   }
 
   /**
-   * Internal method to set scrolledToStart and scrolledToEnd
+   * Internal method to set scrolledToStart and scrolledToEnd.
    * @private
-   * @param {boolean} autofocus - true if the first or last element should be focused when scrolled to
+   * @param {boolean} autofocus - True if the first or last element should be focused when scrolled to
    * start or end, respectively.
    * @return {void}
    */
@@ -226,8 +240,8 @@ class AuroCarousel extends LitElement {
             entry.target.setAttribute('tabindex', '-1');
             entry.target.setAttribute('aria-hidden', true);
           }
-        })
-      }
+        });
+      };
 
       this.intersectionObserver = new IntersectionObserver(callback, options);
       this.observeChildren();
@@ -259,7 +273,7 @@ class AuroCarousel extends LitElement {
   observeChildren() {
     Array.from(this.children).forEach((element) => {
       this.intersectionObserver.observe(element);
-    })
+    });
   }
 
   /**
@@ -279,20 +293,20 @@ class AuroCarousel extends LitElement {
   /**
    * Internal method to handle clicks on the shoulder buttons.
    * @private
-   * @param {boolean} scrollRight - whether to scroll the carousel right or left.
+   * @param {boolean} scrollRight - Whether to scroll the carousel right or left.
    * @return {void}
    */
   handleClick(scrollRight) {
     let click = null;
 
     if (scrollRight) {
-      this.scrollCarousel(this.scrollDistance)
+      this.scrollCarousel(this.scrollDistance);
       click = new CustomEvent('scrollRight', {
         bubbles: true,
         composed: true,
       });
     } else {
-      this.scrollCarousel(-1 * this.scrollDistance);
+      this.scrollCarousel(-1 * this.scrollDistance); // eslint-disable-line no-magic-numbers
       click = new CustomEvent('scrollLeft', {
         bubbles: true,
         composed: true,
@@ -306,7 +320,7 @@ class AuroCarousel extends LitElement {
       "carousel": true,
       "carousel--scrolledToStart": this.scrolledToStart && !this.displayArrows,
       "carousel--scrolledToEnd": this.scrolledToEnd && !this.displayArrows
-    }
+    };
 
     return html`
       <div class="breakpointDetector"></div>

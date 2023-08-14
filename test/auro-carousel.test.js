@@ -1,5 +1,5 @@
 import { fixture, html, expect, waitUntil } from '@open-wc/testing';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import '../src/auro-carousel.js';
 
 describe('auro-carousel', () => {

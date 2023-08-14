@@ -4,78 +4,82 @@
 // ---------------------------------------------------------------------
 
 // Import Auro tokens
-@import "./node_modules/@alaskaairux/orion-design-tokens/dist/tokens/SCSSVariables";
-@import "./node_modules/@alaskaairux/orion-design-tokens/dist/tokens/SassCustomProperties";
+@import './../node_modules/@alaskaairux/design-tokens/dist/tokens/SCSSVariables';
+@import './../node_modules/@alaskaairux/design-tokens/dist/tokens/SassCustomProperties';
 
-@import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/breakpoints";
-@import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/core";
+@import './../node_modules/@aurodesignsystem/webcorestylesheets/dist/breakpoints';
+@import './../node_modules/@aurodesignsystem/webcorestylesheets/dist/core';
 
-@import "./node_modules/@alaskaairux/orion-web-core-style-sheets/dist/utilityClasses/displayProperties";
+@import './../node_modules/@aurodesignsystem/webcorestylesheets/dist/utilityClasses/displayProperties';
+
+/* stylelint-disable declaration-empty-line-before, color-function-notation, hue-degree-notation, selector-max-class, selector-class-pattern */
 
 :host {
-  display: block;
   position: relative;
-}
 
-:host(.focus-visible) {
-  button:focus {
-    border: 3px solid var(--auro-color-ui-default-on-light);
-    background: var(--auro-color-base-white);
-    color: var(--auro-color-ui-default-on-light);
-  }
+  display: block;
 }
 
 .carousel {
+  @include auro_breakpoint--sm {
+    &:before,
+    &:after {
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+
+      display: block;
+      width: 8.75rem;
+      height: 100%;
+
+      background-image: linear-gradient(
+      90deg,
+      hsla(0,0%,100%,0) 0%,
+      hsla(0,0%,100%,.06) 12%,
+      hsla(0,0%,100%,.15) 24%,
+      hsla(0,0%,100%,.28) 35%,
+      hsla(0,0%,100%,.40) 46%,
+      hsla(0,0%,100%,.54) 58%,
+      hsla(0,0%,100%,.68) 68%,
+      hsla(0,0%,100%,.82) 78%,
+      hsla(0,0%,100%,.92) 88%,
+      hsl(0,0%,100%) 100%
+      );
+
+      content: '';
+      pointer-events: none;
+    }
+
+    &:before {
+      left: 0;
+
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    &:after {
+      right: 0;
+
+      transform: translateY(-50%) ;
+    }
+  }
+
   overflow-x: scroll;
-  white-space: nowrap;
-  scrollbar-width: none;
+
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  white-space: nowrap;
 
   &::-webkit-scrollbar {
     width: 0;
     height: 0;
   }
 
-  @include auro_breakpoint--sm {
-    &::before, &::after {
-      content: '';
-      height: 100%;
-      width: 8.75rem;
-      pointer-events: none;
-      display: block;
-      position: absolute;
-      top: 50%;
-      background-image: linear-gradient(
-        90deg,
-        hsla(0,0%,100%,0) 0%,
-        hsla(0,0%,100%,0.06) 12%,
-        hsla(0,0%,100%,0.15) 24%,
-        hsla(0,0%,100%,0.28) 35%,
-        hsla(0,0%,100%,0.40) 46%,
-        hsla(0,0%,100%,0.54) 58%,
-        hsla(0,0%,100%,0.68) 68%,
-        hsla(0,0%,100%,0.82) 78%,
-        hsla(0,0%,100%,0.92) 88%,
-        hsl(0,0%,100%) 100%
-      );
-
-      z-index: 0;
+  &.carousel--scrolledToStart,
+  &.carousel--scrolledToEnd {
+    &:after,
+    &:before {
+      display: none;
     }
-
-    &::before {
-      left: 0;
-      transform: translateY(-50%) rotate(180deg);
-    }
-
-    &::after {
-      right: 0;
-      transform: translateY(-50%) ;
-    }
-  }
-
-  &.carousel--scrolledToStart::before,
-  &.carousel--scrolledToEnd::after {
-    display: none;
   }
 }
 
@@ -84,8 +88,9 @@
 }
 
 ::slotted(*) {
-  margin-left: var(--auro-size-md);
   flex: 0 0 auto;
+
+  margin-left: var(--auro-size-md);
 }
 
 ::slotted(:first-child) {
@@ -99,61 +104,55 @@
 // This allows querying of the breakpoint from Javascript
 // without hard-coding the design token
 // https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
-.breakpointDetector::before {
-  display: none;
+.breakpointDetector {
+  &:before {
+    @include auro_breakpoint--sm {
+      content: 'sm';
+    }
 
-  @include auro_breakpoint--sm {
-    content: "sm";
+    display: none;
   }
 }
 
 .button {
-  display: none;
-
   @include auro_breakpoint--sm {
-    display: block;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 2.5rem;
-    width: 2.5rem;
-    border-radius: 50%;
-    border: 1px solid var(--auro-color-ui-default-on-light);
-    background: var(--auro-color-base-white);
-    cursor: pointer;
-    color: var(--auro-color-ui-default-on-light);
-    padding: 0;
     z-index: 1;
+    top: 50%;
+
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+
+    padding: 0;
+
+    border: 1px solid var(--auro-color-ui-default-on-light);
+    border-radius: 50%;
+
+    background: var(--auro-color-base-white);
+    color: var(--auro-color-ui-default-on-light);
+
+    cursor: pointer;
+
     line-height: 0;
 
+    transform: translateY(-50%);
+
     &:hover {
+      border: none;
+
       background: var(--auro-color-ui-default-on-light);
       color: var(--auro-color-base-white);
-      border: none;
     }
 
     &:active {
+      border: none;
+
       background: var(--auro-color-ui-active-on-light);
       color: var(--auro-color-base-white);
-      border: none;
     }
   }
-}
 
-.button--left {
-  left: 0;
-}
-
-.button--right {
-  right: 0;
-  z-index: 1;
-}
-
-.carousel--scrolledToStart .button--left {
-  display: none;
-}
-
-.carousel--scrolledToEnd .button--right {
   display: none;
 }
 
@@ -161,10 +160,31 @@ auro-icon {
   margin-top: 3px;
 }
 
-.button--left auro-icon {
-  margin-right: 2px;
+.button--left {
+  left: 0;
+
+  auro-icon {
+    margin-right: 2px;
+  }
 }
 
-.button--right auro-icon {
-  margin-left: 2px;
+.button--right {
+  z-index: 1;
+  right: 0;
+
+  auro-icon {
+    margin-left: 2px;
+  }
+}
+
+.carousel--scrolledToStart {
+  .button--left {
+    display: none;
+  }
+}
+
+.carousel--scrolledToEnd {
+  .button--right {
+    display: none;
+  }
 }

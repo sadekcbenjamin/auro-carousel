@@ -1,6 +1,6 @@
 # auro-carousel
 
-auro-carousel displays a group of elements in a scrollable container.
+The auro-carousel component displays a group of elements in a scrollable container.
 
 ## Properties
 
@@ -15,10 +15,10 @@ auro-carousel displays a group of elements in a scrollable container.
 
 | Method                  | Type                  | Description                                      |
 |-------------------------|-----------------------|--------------------------------------------------|
-| `actionOnChildrenReady` | `(): void`            | function handler for anything that happens when all its children is ready |
-| `centerElement`         | `(el: Element): void` | Centers the given element inside the carousel.<br /><br />**el**: the element to center inside the carousel. Must be a descendant of the carousel. |
-| `scrollCarousel`        | `(num: number): void` | Scrolls the carousel by the given amount.<br /><br />**num**: the number of pixels to scroll the carousel by. Positive scrolls to the<br />right, negative scrolls to the left. |
-| `scrollToSelected`      | `(): void`            | Scroll to the first child component that have 'selected' attribute |
+| `actionOnChildrenReady` | `(): void`            | Function handler for anything that happens when all its children is ready. |
+| `centerElement`         | `(el: Element): void` | Centers the given element inside the carousel.<br /><br />**el**: The element to center inside the carousel. Must be a descendant of the carousel. |
+| `scrollCarousel`        | `(num: number): void` | Scrolls the carousel by the given amount.<br /><br />**num**: The number of pixels to scroll the carousel by. Positive scrolls to the<br />right, negative scrolls to the left. |
+| `scrollToSelected`      | `(): void`            | Scroll to the first child component that have 'selected' attribute. |
 
 ## Events
 
