@@ -51,6 +51,7 @@
     }
 
     &:before {
+      background: none;
       left: 0;
 
       transform: translateY(-50%) rotate(180deg);
@@ -58,6 +59,7 @@
 
     &:after {
       right: 0;
+      background: none;
 
       transform: translateY(-50%) ;
     }

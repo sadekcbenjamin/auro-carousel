@@ -6,12 +6,12 @@
     "  2. Go to http://localhost:8000",
     "================================================================================"
   ],
-  "name": "@aurodesignsystem/auro-carousel",
+  "name": "@sadekcbenjamin/auro-carousel",
   "version": "2.0.0",
   "description": "auro-carousel HTML custom element",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AlaskaAirlines/auro-carousel"
+    "url": "https://github.com/sadekcbenjamin/auro-carousel"
   },
   "main": "index.js",
   "license": "Apache-2.0",
